@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		081E06B92CD6C90D002C221B /* SpenceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 081E06B82CD6C90D002C221B /* SpenceKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		081E06292CD6928C002C221B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				081E06B92CD6C90D002C221B /* SpenceKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			);
 			name = Handshake;
 			packageProductDependencies = (
+				081E06B82CD6C90D002C221B /* SpenceKit */,
 			);
 			productName = Handshake;
 			productReference = 081E06162CD6928A002C221B /* Handshake.app */;
@@ -208,6 +214,9 @@
 			);
 			mainGroup = 081E060D2CD6928A002C221B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				081E06B72CD6C90D002C221B /* XCRemoteSwiftPackageReference "SpenceKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 081E06172CD6928A002C221B /* Products */;
 			projectDirPath = "";
@@ -575,6 +584,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		081E06B72CD6C90D002C221B /* XCRemoteSwiftPackageReference "SpenceKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/steadman1/SpenceKit.swift";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		081E06B82CD6C90D002C221B /* SpenceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 081E06B72CD6C90D002C221B /* XCRemoteSwiftPackageReference "SpenceKit" */;
+			productName = SpenceKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 081E060E2CD6928A002C221B /* Project object */;
 }
