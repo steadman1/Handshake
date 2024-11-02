@@ -1,0 +1,33 @@
+{
+  "originHash" : "2ec0aaa4f3d32259a617d1c92ada948cafdd798816e52a35130b39606b03fd0a",
+  "pins" : [
+    {
+      "identity" : "measurement-reader",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vinceplusplus/measurement-reader.git",
+      "state" : {
+        "revision" : "5997fcb76e31b6fb91c362670d6f63cfc4f20d00",
+        "version" : "2.1.1"
+      }
+    },
+    {
+      "identity" : "spencekit.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/steadman1/SpenceKit.swift",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ae4d5cc274effe788c76f8a9b00d6e236910fd0a"
+      }
+    },
+    {
+      "identity" : "viewextractor",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/GeorgeElsham/ViewExtractor",
+      "state" : {
+        "revision" : "e20b1944524d4454c2a65c0054ce345c2c5d0185",
+        "version" : "2.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}
