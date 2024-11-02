@@ -8,12 +8,15 @@ class ConnectionManager {
 
     // Sends a connection request to another user
     func requestConnection(with receiverId: String, completion: @escaping (Error?) -> Void) {
-        guard let requestorId = Auth.auth().currentUser?.uid else { return }
+        guard let requestorId = Auth.auth().currentUser?.uid else { 
+            completion(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]))
+            return 
+        }
         let requestId = UUID().uuidString
         let requestData: [String: Any] = [
             "requestor_id": requestorId,
             "receiver_id": receiverId,
-            "status": "pending",
+            "status": "pending"
         ]
         
         db.collection("ConnectionRequests").document(requestId).setData(requestData) { error in
@@ -30,7 +33,10 @@ class ConnectionManager {
 
     // Listens for user data updates
     func listenForUserDataUpdates(completion: @escaping ([String: Any]?, Error?) -> Void) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { 
+            completion(nil, NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]))
+            return 
+        }
         
         db.collection("Users").document(uid).addSnapshotListener { snapshot, error in
             if let error = error {
