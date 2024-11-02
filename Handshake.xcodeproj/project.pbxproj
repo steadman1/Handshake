@@ -29,9 +29,22 @@
 		081E06322CD6928C002C221B /* HandshakeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HandshakeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		081E06482CD6951A002C221B /* Exceptions for "Handshake" folder in "Handshake" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 081E06152CD6928A002C221B /* Handshake */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		081E06182CD6928A002C221B /* Handshake */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				081E06482CD6951A002C221B /* Exceptions for "Handshake" folder in "Handshake" target */,
+			);
 			path = Handshake;
 			sourceTree = "<group>";
 		};
@@ -399,6 +412,8 @@
 				DEVELOPMENT_TEAM = GUMZA2HGFC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Handshake/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Our app uses bluetooth to find, connect and transfer data between different devices";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -428,6 +443,8 @@
 				DEVELOPMENT_TEAM = GUMZA2HGFC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Handshake/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Our app uses bluetooth to find, connect and transfer data between different devices";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

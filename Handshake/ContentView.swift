@@ -6,56 +6,82 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
+    @StateObject private var bleManager = BLEManager()
+    
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+        NavigationView {
+            VStack {
+                Text("BLE Scanning & Advertising")
+                    .font(.headline)
+                    .padding()
+                
+                Text("Discovered Devices:")
+                    .font(.subheadline)
+                    .padding(.top)
+                
+                List(bleManager.discoveredDevices, id: \.identifier) { peripheral in
+                    Text(peripheral.name ?? "Unknown Device")
+                }
+                
+                HStack {
+                    Button(action: {
+                        bleManager.startScanning()
+                    }) {
+                        Text("Start Scanning")
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    
+                    Button(action: {
+                        bleManager.stopScanning()
+                    }) {
+                        Text("Stop Scanning")
+                            .padding()
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
                     }
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                .padding(.top)
+                
+                HStack {
+                    Button(action: {
+                        bleManager.startAdvertising()
+                    }) {
+                        Text("Start Advertising")
+                            .padding()
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    
+                    Button(action: {
+                        bleManager.stopAdvertising()
+                    }) {
+                        Text("Stop Advertising")
+                            .padding()
+                            .background(Color.orange)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
                     }
                 }
+                .padding(.top)
             }
-        } detail: {
-            Text("Select an item")
+            .navigationTitle("BLE Manager")
+        }
+        .onAppear {
+            // Start both scanning and advertising when the view appears
+            bleManager.startScanning()
+            bleManager.startAdvertising()
+        }
+        .onDisappear {
+            // Stop both scanning and advertising when the view disappears
+            bleManager.stopScanning()
+            bleManager.stopAdvertising()
         }
     }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        }
-    }
-}
-
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
 }
