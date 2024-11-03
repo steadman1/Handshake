@@ -5,6 +5,9 @@ struct Home: View {
     @EnvironmentObject var defaults: ObservableDefaults
     @ObservedObject var bleManager = BLEManager()
 
+    @State var editHandshakeCard = false
+    @State var selfUser: User?
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -12,6 +15,16 @@ struct Home: View {
                     Text("Users\nNearby")
                         .font(.SpenceKit.SerifXLargeTitleFont)
                     Spacer()
+                    
+                    if selfUser != nil {
+                        Button {
+                            editHandshakeCard.toggle()
+                        } label: {
+                            HandshakeCardStatic(user: selfUser!)
+                                .scaleEffect(0.3)
+                                .frame(width: 300*0.3, height: 400*0.3)
+                        }
+                    }
                 }
 
                 ForEach(Array(zip(bleManager.discoveredDevices.indices, bleManager.discoveredDevices)), id: \.0) { index, device in
@@ -53,6 +66,18 @@ struct Home: View {
                 
                 Spacer()
             }.padding([.horizontal], SpenceKit.Constants.padding16)
+                .onAppear {
+                    fetchPublicData(userId: String(defaults.userId.prefix(26))) { user in
+                        DispatchQueue.main.async {
+                            selfUser = user
+                        }
+                    }
+                }.sheet(isPresented: $editHandshakeCard) {
+                    VStack {
+                        Spacer().frame(height: SpenceKit.Constants.padding16)
+                        GetToKnow(isUserNotCreated: $editHandshakeCard)
+                    }
+                }
         }
     }
     
