@@ -1,5 +1,5 @@
 {
-  "originHash" : "d6653d50bdbd9f69de9017959eb3a03b8fa322a622be1232e2fb6dff5e180386",
+  "originHash" : "c1a73455a4d202651adc5bdf4fb0f59925e1c3ef8fd2afb1854e9d751289d172",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -124,7 +124,7 @@
       "location" : "https://github.com/steadman1/SpenceKit.swift",
       "state" : {
         "branch" : "main",
-        "revision" : "038b152c5e40eb75f7e79e45a350f1e4190d012a"
+        "revision" : "f4591850d681abed910aece01a580af71eea9d89"
       }
     },
     {
