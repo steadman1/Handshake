@@ -12,20 +12,24 @@ struct ContentView: View {
     @StateObject private var bleManager = BLEManager()
     @StateObject private var authViewModel = AuthViewModel.shared
     
-    @State private var isNewUser = false
+    @State private var isNewUser = true
     
     var body: some View {
         if authViewModel.isAuthenticated {
             if isNewUser {
-                GetToKnow()
+                GetToKnow(isUserNotCreated: $isNewUser)
             } else {
                 Text("test")
             }
         } else {
             SignUp(authViewModel: authViewModel)
                 .onAppear {
-                    isNewUser = defaults.name.isEmpty
+//                    isNewUser = defaults.name.isEmpty
                 }
         }
     }
+}
+
+#Preview {
+    ContentView()
 }

@@ -18,6 +18,9 @@ class AuthViewModel: ObservableObject {
     @Published var authError: String?
 
     init() {
+        // save user session
+        isAuthenticated = Auth.auth().currentUser != nil
+        
         // Restore verificationID if available
         verificationID = UserDefaults.standard.string(forKey: "authVerificationID")
         isVerificationSent = (verificationID != nil)

@@ -12,7 +12,12 @@ struct YourHandshakeCard: View {
     @ObservedObject var user: User
     @Binding var selection: Int
     @State private var design = 0
-    @State private var color: Color = Color.blue
+    @State private var color: Color = Color(
+        red: Double.random(in: 0...1),
+        green: Double.random(in: 0...1),
+        blue: Double.random(in: 0...1)
+    )
+    
     @State private var isColorPicker = false
     
     var body: some View {
@@ -60,12 +65,12 @@ struct YourHandshakeCard: View {
                                 
                                 Spacer()
                                 
-                                VStack {
+                                VStack(spacing: SpenceKit.Constants.spacing4) {
                                     if !user.snapchat.isEmpty {
                                         Image("snapchat")
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(height: 24)
+                                            .frame(height: 30)
                                             .foregroundStyle(color)
                                     }
                                     
@@ -73,7 +78,7 @@ struct YourHandshakeCard: View {
                                         Image("instagram")
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(height: 24)
+                                            .frame(height: 30)
                                             .foregroundStyle(color)
                                     }
                                 }

@@ -8,9 +8,12 @@
 import SwiftUI
 import SpenceKit
 import ViewExtractor
+import FirebaseAuth
 
 struct GetToKnow: View {
     @EnvironmentObject var defaults: ObservableDefaults
+    
+    @Binding var isUserNotCreated: Bool
     
     @StateObject private var user = User.blank
     @State private var selection: Int = 0
@@ -38,6 +41,12 @@ struct GetToKnow: View {
             }
             
             Spacer()
+        }.onChange(of: selection) { _, newValue in
+            if newValue == labels.count {
+                print("TEST")
+                isUserNotCreated = false
+                user.sendToSignupEndpoint()
+            }
         }
     }
     
@@ -51,5 +60,5 @@ struct GetToKnow: View {
 }
 
 #Preview {
-    GetToKnow().environmentObject(ObservableDefaults.shared)
+    GetToKnow(isUserNotCreated: .constant(false)).environmentObject(ObservableDefaults.shared)
 }
