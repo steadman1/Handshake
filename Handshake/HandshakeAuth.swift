@@ -27,6 +27,7 @@ class AuthViewModel: ObservableObject {
     }
 
     func sendVerificationCode(phoneNumber: String) {
+        ObservableDefaults.shared.phoneNumber = phoneNumber
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { [weak self] verificationID, error in
             DispatchQueue.main.async {
                 if let error = error {

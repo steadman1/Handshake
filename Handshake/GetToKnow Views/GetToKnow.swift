@@ -41,11 +41,10 @@ struct GetToKnow: View {
             }
             
             Spacer()
-        }.onChange(of: selection) { _, newValue in
+        }.onChange(of: selection) { newValue in
             if newValue == labels.count {
-                print("TEST")
-                isUserNotCreated = false
                 user.sendToSignupEndpoint()
+                isUserNotCreated = false
             }
         }
     }

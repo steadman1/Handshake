@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var defaults = ObservableDefaults.shared
-    @StateObject private var bleManager = BLEManager()
     @StateObject private var authViewModel = AuthViewModel.shared
     
     @State private var isNewUser = true
@@ -18,14 +17,15 @@ struct ContentView: View {
         if authViewModel.isAuthenticated {
             if isNewUser {
                 GetToKnow(isUserNotCreated: $isNewUser)
+                    .onAppear {
+                        isNewUser = defaults.userId.isEmpty
+                    }
             } else {
-                Text("test")
+                Home()
+                    .environmentObject(defaults)
             }
         } else {
             SignUp(authViewModel: authViewModel)
-                .onAppear {
-//                    isNewUser = defaults.name.isEmpty
-                }
         }
     }
 }

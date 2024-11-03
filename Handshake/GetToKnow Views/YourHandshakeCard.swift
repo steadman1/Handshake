@@ -33,61 +33,7 @@ struct YourHandshakeCard: View {
                 
                 HStack(alignment: .bottom) {
                     Spacer()
-                    ZStack(alignment: .bottomLeading) {
-                        VStack {
-                            ZStack(alignment: .bottomTrailing) {
-                                Image("\(design)")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(maxHeight: .infinity)
-                                    .foregroundStyle(color)
-                                Text("Handshake")
-                                    .font(.SpenceKit.SerifPrimaryTitleFont)
-                                    .serifBold(font: Font.SpenceKit.FontSkeleton.SerifPrimaryTitle,
-                                               strokeColor: Color("Paper Beige"))
-                                    .foregroundStyle(Color("Paper Beige"))
-                                    .padding(.trailing, SpenceKit.Constants.padding4)
-                                    .padding(.bottom, SpenceKit.Constants.padding8)
-                            }
-                            
-                            Spacer()
-                            
-                            HStack(alignment: .bottom) {
-                                VStack(alignment: .leading) {
-                                    Text(user.name.isEmpty ? "" : user.name)
-                                        .font(.SpenceKit.SansXLargeTitleFont)
-                                        .fontWeight(.black)
-                                        .foregroundStyle(color)
-                                    Text("Hello, World—I'm \(user.name),\nand I'm ready to Handshake!")
-                                        .font(.SpenceKit.SansHeadlineFont)
-                                        .foregroundStyle(color)
-                                }
-                                
-                                Spacer()
-                                
-                                VStack(spacing: SpenceKit.Constants.spacing4) {
-                                    if !user.snapchat.isEmpty {
-                                        Image("snapchat")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(height: 30)
-                                            .foregroundStyle(color)
-                                    }
-                                    
-                                    if !user.instagram.isEmpty {
-                                        Image("instagram")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(height: 30)
-                                            .foregroundStyle(color)
-                                    }
-                                }
-                            }
-                        }
-                    }.frame(width: 300, height: 400)
-                        .padding(SpenceKit.Constants.padding16)
-                        .background(Color("Paper Beige"))
-                        .clipShape(RoundedRectangle(cornerRadius: SpenceKit.Constants.cornerRadius8))
+                    HandshakeCard(user: user, design: $design, color: $color)
                     Spacer()
                 }
             }.padding(.horizontal, SpenceKit.Constants.padding16)
@@ -155,11 +101,11 @@ struct YourHandshakeCard: View {
                 .padding(.vertical, -SpenceKit.Constants.padding12)
                 .padding(.horizontal, SpenceKit.Constants.padding16)
             }
+        }.onChange(of: selection) { newValue in
+            user.handshakeCard.design = newValue
+            user.handshakeCard.color = color.toHex() ?? "#FFFFFF"
+        }.onAppear {
+            user.handshakeCard.color = color.toHex() ?? "#FFFFFF"
         }
     }
-}
-
-#Preview {
-    @Previewable @State var selection = 0
-    YourHandshakeCard(user: User.blank, selection: $selection)
 }

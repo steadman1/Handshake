@@ -79,12 +79,12 @@ struct SignUp: View {
                 }
             )
         }
-        .onChange(of: authViewModel.isVerificationSent) { _, newValue in
+        .onChange(of: authViewModel.isVerificationSent) { newValue in
             withAnimation {
                 presentVerificationCode = true
             }
         }
-        .onChange(of: authViewModel.isAuthenticated) { _, isAuthenticated in
+        .onChange(of: authViewModel.isAuthenticated) { isAuthenticated in
             if isAuthenticated {
                 print("User authenticated successfully")
                 // Navigate to the next screen or show a success message

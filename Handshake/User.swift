@@ -9,10 +9,10 @@ import Foundation
 import SwiftUI
 import FirebaseAuth
 
-
-class User: ObservableObject {
+class User: ObservableObject, Decodable, Identifiable {
+    let id: UUID = UUID()
     @Published var name: String
-    @Published var phoneNumber: Int
+    @Published var phoneNumber: String
     @Published var bio: String
     @Published var interests: [String]
     @Published var songs: [String]
@@ -20,10 +20,10 @@ class User: ObservableObject {
     @Published var instagram: String
     @Published var snapchat: String
     @Published var other: String
-    
+
     init(
         name: String,
-        phoneNumber: Int,
+        phoneNumber: String,
         bio: String,
         interests: [String],
         songs: [String],
@@ -42,29 +42,57 @@ class User: ObservableObject {
         self.snapchat = snapchat
         self.other = other
     }
+
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.phoneNumber = try container.decode(String.self, forKey: .phoneNumber)
+        self.bio = try container.decode(String.self, forKey: .bio)
+        self.interests = try container.decode([String].self, forKey: .interests)
+        self.songs = try container.decode([String].self, forKey: .songs)
+        self.handshakeCard = try container.decode(HandshakeCard.self, forKey: .handshakeCard)
+        self.instagram = try container.decode(String.self, forKey: .instagram)
+        self.snapchat = try container.decode(String.self, forKey: .snapchat)
+        self.other = try container.decode(String.self, forKey: .other)
+    }
     
-    class HandshakeCard: ObservableObject {
-        @Published var design: Int // Allowed values: 0, 1, 2, 3
-        @Published var color: String // Hex color code, e.g., "#FFFFFF"
-        
+    private enum CodingKeys: String, CodingKey {
+        case name, phoneNumber, bio, interests, songs, handshakeCard, instagram, snapchat, other
+    }
+
+    class HandshakeCard: ObservableObject, Decodable {
+        @Published var design: Int
+        @Published var color: String
+
         init(design: Int, color: String) {
             self.design = design
             self.color = color
         }
+
+        required init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.design = try container.decode(Int.self, forKey: .design)
+            self.color = try container.decode(String.self, forKey: .color)
+        }
+        
+        private enum CodingKeys: String, CodingKey {
+            case design, color
+        }
     }
-    
+
     static let blank = User(
-        name: "spence",
-        phoneNumber: 0,
+        name: "",
+        phoneNumber: ObservableDefaults.shared.phoneNumber,
         bio: "",
         interests: [],
         songs: [],
         handshakeCard: HandshakeCard(design: 0, color: "#FFFFFF"),
-        instagram: "test",
-        snapchat: "test",
+        instagram: "",
+        snapchat: "",
         other: ""
     )
 }
+
 
 extension User {
     func toJSON() -> Data? {
@@ -73,8 +101,8 @@ extension User {
             "name": name,
             "phoneNumber": phoneNumber,
             "bio": bio,
-            "interests": interests,
-            "songs": songs,
+            "interests": interests as Array<String>,
+            "songs": songs as Array<String>,
             "handshakeCard": [
                 "design": handshakeCard.design,
                 "color": handshakeCard.color
@@ -114,11 +142,11 @@ extension User {
             }
             
             // Set up the URL and request
-            let url = URL(string: "http://172.18.59.155:8000/auth/signup")!
+            let url = URL(string: "\(CONSTANTS.endpoint)/auth/signup")!
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.setValue("Bearer \(idToken)", forHTTPHeaderField: "Authorization")
+            request.setValue(idToken, forHTTPHeaderField: "Authorization")
             request.httpBody = userJSON
             
             // Send the request
@@ -135,6 +163,23 @@ extension User {
                 
                 if (200...299).contains(httpResponse.statusCode) {
                     print("User successfully sent to signup endpoint.")
+                    
+                    // Parse the response data for user_id
+                    if let data = data {
+                        do {
+                            if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                               let userId = jsonResponse["user_id"] as? String {
+                                
+                                DispatchQueue.main.async {
+                                    ObservableDefaults.shared.userId = userId
+                                }
+                            } else {
+                                print("User ID not found in the response.")
+                            }
+                        } catch {
+                            print("Error parsing JSON response: \(error.localizedDescription)")
+                        }
+                    }
                 } else {
                     print("Server error: \(httpResponse.statusCode)")
                     if let data = data, let responseString = String(data: data, encoding: .utf8) {
