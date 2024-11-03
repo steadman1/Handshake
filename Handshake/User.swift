@@ -52,14 +52,14 @@ class User: ObservableObject {
     }
     
     static let blank = User(
-        name: "",
+        name: "spence",
         phoneNumber: 0,
         bio: "",
         interests: [],
         songs: [],
         handshakeCard: HandshakeCard(design: 0, color: "#FFFFFF"),
-        instagram: "",
-        snapchat: "",
+        instagram: "test",
+        snapchat: "test",
         other: ""
     )
 }

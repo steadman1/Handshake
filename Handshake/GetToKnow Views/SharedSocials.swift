@@ -38,7 +38,7 @@ struct SharedSocials: View {
                 
                 Spacer().frame(height: 40)
                 
-                InlineTextField("Your Instagram Username...", $user.bio, title: "Instagram", description: "Optional") {
+                InlineTextField("Your Instagram Username...", $user.instagram, title: "Instagram", description: "Optional") {
                     HelperButtons.Info {
                         accountUsernameAlert = true // Trigger alert
                     }
@@ -46,7 +46,7 @@ struct SharedSocials: View {
                 
                 Spacer().frame(height: 40)
                 
-                InlineTextField("Your Snapchat Username...", $user.bio, title: "Snapchat", description: "Optional") {
+                InlineTextField("Your Snapchat Username...", $user.snapchat, title: "Snapchat", description: "Optional") {
                     HelperButtons.Info {
                         accountUsernameAlert = true // Trigger alert
                     }
@@ -54,7 +54,7 @@ struct SharedSocials: View {
                 
                 Spacer().frame(height: 40)
                 
-                MultilineTextField("Your other social media handles.", $user.bio, title: "Other Platforms", description: "", maxCharacters: 250) {
+                MultilineTextField("Your other social media handles.", $user.other, title: "Other Platforms", description: "", maxCharacters: 250) {
                     HelperButtons.Info {
                         accountUsernameAlert = true // Trigger alert
                     }
